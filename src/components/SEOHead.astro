@@ -1,0 +1,75 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  canonicalUrl?: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description,
+  canonicalUrl = Astro.url.href,
+  image = '/logo.svg',
+  type = 'website',
+} = Astro.props;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfessionalService',
+      '@id': 'https://click.digitalandia.com/#organization',
+      'name': 'Click',
+      'alternateName': 'Click Software & Web Agency',
+      'url': 'https://click.digitalandia.com',
+      'logo': 'https://click.digitalandia.com/logo.svg',
+      'slogan': 'Experiencias memorables en un solo click.',
+      'description': 'Desarrollo de páginas web corporativas y soluciones de software a la medida para empresas, pymes y emprendimientos.',
+      'sameAs': [
+        'https://github.com/Click-Software'
+      ],
+      'knowsAbout': [
+        'Desarrollo Web Corporativo',
+        'Software a la Medida',
+        'Optimización Web Lighthouse 100/100',
+        'Arquitectura de Software y SPAs'
+      ]
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${canonicalUrl}#website`,
+      'url': canonicalUrl,
+      'name': title,
+      'description': description,
+      'publisher': {
+        '@id': 'https://click.digitalandia.com/#organization'
+      },
+      'inLanguage': 'es'
+    }
+  ]
+};
+---
+
+<!-- Canonical & Essential Meta -->
+<link rel="canonical" href={canonicalUrl} />
+<meta name="description" content={description} />
+<meta name="author" content="Click" />
+
+<!-- Open Graph / WhatsApp / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url)} />
+
+<!-- Twitter / X Cards -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalUrl} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<!-- JSON-LD Structured Data for Search Engines and AI Agents -->
+<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />

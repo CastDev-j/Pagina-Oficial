@@ -1,0 +1,20 @@
+# Click — Documentación para Modelos de Lenguaje (LLMs)
+
+> **Click** es un estudio especializado en desarrollo de páginas web corporativas y soluciones de software a la medida para empresas, pymes y emprendimientos. Lema: *"Experiencias memorables en un solo click."*
+
+## Información de la Empresa
+- **Nombre**: Click
+- **Giro**: Desarrollo de páginas web corporativas y soluciones de software a la medida para empresas, pymes y emprendimientos.
+- **Lema**: "Experiencias memorables en un solo click."
+- **¿Qué hacemos?**: Diseñamos y desarrollamos sitios web corporativos y plataformas digitales personalizadas, adaptadas a las necesidades, giro e identidad de cada cliente. Creamos soluciones rápidas, responsivas y bien estructuradas para cualquier dispositivo.
+- **Misión**: Ayudar a empresas y emprendimientos a consolidar una presencia digital profesional y confiable mediante páginas web a la medida, intuitivas y de alto rendimiento.
+- **Visión**: Ser el estudio de desarrollo web de referencia para marcas y negocios que buscan un socio tecnológico ágil, transparente y con altos estándares de calidad de software.
+- **Contacto**: contacto@click.digitalandia.com
+
+## Rigor Técnico y Estándar de Software
+- **Puntuación Core Web Vitals**: 100/100 en Google Lighthouse (Desktop y Mobile).
+- **Hilo Principal**: Cero bloqueo (TBT = 0 ms).
+- **Arquitectura**: Static Site Generation (Astro 5) con islas interactivas (React 19) hidratadas bajo demanda.
+- **Estética Visual**: Y2K Neobrutalist OS / Technical Blueprint (Chasis retro Windows 98, bordes mecánicos de 2px-3px, hard shadows táctiles, cuadrícula milimétrica).
+- **Tipografía**: Plus Jakarta Sans (UI legible) + JetBrains Mono (telemetría técnica).
+- **Seguridad**: Accesibilidad WCAG 2.2 AAA, cabeceras de seguridad estrictas y entrega global en Cloudflare Edge.
