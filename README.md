@@ -32,34 +32,35 @@ Esta plantilla establece la base tecnica, estandares de codigo limpio y flujo de
 Instrucciones para el equipo de desarrollo sobre como clonar el repositorio, sincronizar ramas y subir cambios.
 
 ### A. Clonar el repositorio
+
 Abre la terminal en tu directorio de trabajo:
+
 ```bash
 git clone https://github.com/Click-Software/Pagina-Oficial.git
 cd Pagina-Oficial
 ```
 
 ### B. Instalar dependencias
+
 ```bash
 bun install
 ```
 
-### C. Configurar el entorno
-Copia el archivo de variables de entorno base:
-```bash
-cp .env.example .env
-```
-
-### D. Flujo diario de trabajo
+### C. Flujo diario de trabajo
 
 #### 1. Sincronizar antes de programar (Pull)
+
 Siempre descarga los ultimos cambios de la rama principal para prevenir conflictos:
+
 ```bash
 git checkout main
 git pull origin main
 ```
 
 #### 2. Crear una rama de trabajo
+
 No trabajes directamente sobre la rama `main`. Crea una rama con prefijo descriptivo:
+
 ```bash
 git checkout -b feat/nombre-de-la-tarea
 # o para correcciones:
@@ -67,7 +68,9 @@ git checkout -b fix/descripcion-del-arreglo
 ```
 
 #### 3. Verificar estado y confirmar cambios (Add y Commit)
+
 Usa la convencion de commits semanticos (feat, fix, docs, refactor, perf, test):
+
 ```bash
 # Revisar archivos modificados
 git status
@@ -80,20 +83,25 @@ git commit -m "feat: descripcion concisa del cambio"
 ```
 
 #### 4. Subir la rama al repositorio remoto (Push)
+
 La primera vez que subas la rama:
+
 ```bash
 git push -u origin feat/nombre-de-la-tarea
 ```
 
 En las siguientes ocasiones dentro de la misma rama:
+
 ```bash
 git push
 ```
 
 #### 5. Integracion a Main (Pull Request)
+
 1. Abre un Pull Request (PR) en GitHub hacia la rama `main`.
 2. Confirma que la verificacion automatica pase en verde.
 3. Tras la aprobacion y fusion del PR, actualiza tu entorno local:
+
 ```bash
 git checkout main
 git pull origin main
@@ -103,11 +111,11 @@ git pull origin main
 
 ## 4. Comandos del Proyecto
 
-| Comando | Descripcion |
-| :--- | :--- |
-| `bun run dev` | Inicia el servidor de desarrollo local en http://localhost:4321. |
-| `bun run check` | Ejecuta la verificacion de tipos con Astro check y TypeScript. |
-| `bun run build` | Compila la aplicacion para produccion en la carpeta dist/. |
+| Comando           | Descripcion                                                           |
+| :---------------- | :-------------------------------------------------------------------- |
+| `bun run dev`     | Inicia el servidor de desarrollo local en http://localhost:4321.      |
+| `bun run check`   | Ejecuta la verificacion de tipos con Astro check y TypeScript.        |
+| `bun run build`   | Compila la aplicacion para produccion en la carpeta dist/.            |
 | `bun run preview` | Previsualiza localmente el resultado de la compilacion de produccion. |
 
 ---
@@ -136,15 +144,8 @@ Click/
 |   |   `-- index.astro        # Vista principal (Pre-Fase 1)
 |   `-- styles/
 |       `-- global.css         # Estilos globales y reset accesible
-|-- .env.example               # Plantilla de variables de entorno
 |-- astro.config.mjs           # Configuracion principal de Astro
 |-- package.json               # Dependencias y scripts de ejecucion
 |-- tsconfig.json              # Configuracion estricta de TypeScript
 `-- wrangler.jsonc             # Configuracion de despliegue en Cloudflare
 ```
-
----
-
-## 6. Licencia
-
-Propiedad y derechos reservados de Click Software Studio. Distribuido bajo la Licencia MIT.
