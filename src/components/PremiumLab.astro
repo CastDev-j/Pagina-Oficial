@@ -1,0 +1,54 @@
+---
+import '../styles/premium-lab.css';
+
+const proofPoints = [
+  ['01', 'Atención', 'Diseñamos el primer segundo para que nadie quiera hacer scroll away.'],
+  ['02', 'Tensión', 'Cada sección tiene un ritmo: sorpresa, claridad, prueba y acción.'],
+  ['03', 'Recuerdo', 'El lenguaje visual convierte una visita en una historia que se cuenta.'],
+];
+
+const deliverables = [
+  ['01', 'Creative direction', 'La idea rectora, el tono y el universo visual que hacen reconocible la campaña.'],
+  ['02', 'Digital experience', 'Una web que funciona como trailer interactivo: revela, responde y convierte.'],
+  ['03', 'Launch system', 'Plantillas, assets y analítica para que el impacto continúe después del estreno.'],
+];
+---
+
+<section class="premium-hero" aria-labelledby="premium-title">
+  <div class="premium-hero__copy">
+    <span class="eyebrow">17 / CAMPAIGN MODE</span>
+    <h2 id="premium-title">Haz algo que<br /><span>merezca ser visto.</span></h2>
+    <p>Para lanzamientos, videos y marcas que no quieren una web de apoyo. Quieren el segundo escenario de la historia.</p>
+    <div class="premium-hero__actions"><a class="button button-yellow" href="#contacto">Diseñar el impacto <span>↗</span></a><span class="premium-note"><i></i> READY FOR PRIME TIME</span></div>
+  </div>
+  <div class="premium-poster" aria-label="Poster visual de una campaña digital">
+    <div class="poster-noise"></div>
+    <div class="poster-grid"></div>
+    <div class="poster-kicker">CLICK PRESENTS / 001</div>
+    <div class="poster-title">MAKE<br /><em>THE</em><br />MOMENT.</div>
+    <div class="poster-stamp">NO<br />SMALL<br />IDEAS</div>
+    <div class="poster-footer"><span>CREATIVE ENGINEERING</span><span>2025—∞</span></div>
+  </div>
+</section>
+
+<section class="proof-wall" aria-labelledby="proof-title">
+  <div class="proof-wall__header"><span class="eyebrow">18 / LA DIFERENCIA</span><h2 id="proof-title">No se trata de<br /><span class="outline-text">gritar más.</span></h2><p>Se trata de construir una experiencia tan clara, emocionante y bien ejecutada que el público hace el trabajo de recordarla.</p></div>
+  <div class="proof-grid">{proofPoints.map(([number, title, text]) => <article class="proof-card"><span class="proof-card__number">{number}</span><div class="proof-card__icon">{title === 'Atención' ? '◉' : title === 'Tensión' ? '↯' : '✦'}</div><h3>{title}</h3><p>{text}</p><span class="proof-card__arrow">↗</span></article>)}</div>
+</section>
+
+<section class="production-section" aria-labelledby="production-title">
+  <div class="production-intro"><span class="eyebrow">19 / PRODUCTION BOARD</span><h2 id="production-title">Todo lo que<br />necesitas para<br /><span>salir arriba.</span></h2><div class="production-score"><strong>9.8</strong><span>EXPERIENCE SCORE<br /><i>↑ +42% VS. STANDARD</i></span></div></div>
+  <div class="production-deliverables">{deliverables.map(([number, title, text]) => <article class="deliverable"><span>{number}</span><div><h3>{title}</h3><p>{text}</p></div><b>✓</b></article>)}</div>
+</section>
+
+<section class="premium-quote" aria-label="Declaración de calidad">
+  <div class="quote-corner quote-corner--left">[ CLICK / 001 ]</div>
+  <blockquote>“Si vas a pedirle al mundo que mire, asegúrate de tener algo inolvidable que mostrar.”</blockquote>
+  <div class="quote-corner quote-corner--right">END OF TRANSMISSION ↗</div>
+</section>
+
+<section class="final-brief" aria-labelledby="brief-title">
+  <div class="final-brief__top"><span class="eyebrow">20 / EL BRIEF ESTÁ ABIERTO</span><span class="brief-status"><i></i> ACCEPTING BIG IDEAS</span></div>
+  <h2 id="brief-title">La próxima gran<br /><span>historia empieza aquí.</span></h2>
+  <div class="final-brief__bottom"><p>Cuéntanos qué estás preparando. Llegamos con criterio creativo, ingeniería y la energía necesaria para hacerlo imposible de ignorar.</p><a class="button button-blue" href="#contacto">Abrir el brief <span>→</span></a></div>
+</section>
