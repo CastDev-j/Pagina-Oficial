@@ -1,0 +1,88 @@
+---
+import '../styles/singularity-lab.css';
+
+const metrics = [
+  ['99.98%', 'uptime target', 'green'],
+  ['12ms', 'edge response', 'blue'],
+  ['4.8×', 'signal lift', 'yellow'],
+];
+
+const layers = [
+  ['01', 'DISCOVER', 'Find the signal', 'yellow'],
+  ['02', 'DESIGN', 'Shape the feeling', 'blue'],
+  ['03', 'BUILD', 'Make it real', 'teal'],
+  ['04', 'AMPLIFY', 'Let it travel', 'green'],
+];
+
+const questions = [
+  ['What does extraordinary feel like?', 'It feels obvious in retrospect: every detail has a job, every interaction earns attention, and the whole system moves as one.'],
+  ['Can ambitious still be usable?', 'That is the point. The more ambitious the story, the more disciplined the interface has to be.'],
+  ['Where does the next click begin?', 'With a clear signal, a brave decision and a team that is ready to turn momentum into something real.'],
+];
+---
+
+<section class="singularity-hero" aria-labelledby="singularity-title">
+  <div class="singularity-hero__copy">
+    <span class="eyebrow">21 / SINGULARITY MODE</span>
+    <h2 id="singularity-title">Build the<br /><span>impossible</span><br />beautifully.</h2>
+    <p>Un sistema digital para ideas que no caben en una plantilla. La precisión de una plataforma enterprise con la energía de una premiere mundial.</p>
+    <div class="singularity-hero__actions">
+      <a class="button button-yellow" href="#singularity-system">Explore the system <span>↓</span></a>
+      <span class="signal-tag"><i></i> SYSTEMS NOMINAL</span>
+    </div>
+  </div>
+  <div class="singularity-console" aria-label="Command center de Click">
+    <div class="console-top"><span>CLICK / COMMAND CENTER</span><span class="console-top__status"><i></i> ALL SYSTEMS GO</span></div>
+    <div class="console-body">
+      <div class="console-globe" aria-hidden="true"><div class="globe-lat globe-lat--one"></div><div class="globe-lat globe-lat--two"></div><div class="globe-long globe-long--one"></div><div class="globe-long globe-long--two"></div><div class="globe-core">C</div><span class="globe-ping globe-ping--one"></span><span class="globe-ping globe-ping--two"></span></div>
+      <div class="console-readouts">
+        {metrics.map(([value, label, color]) => <div class={`console-metric console-metric--${color}`}><strong>{value}</strong><span>{label}</span><i></i></div>)}
+      </div>
+    </div>
+    <div class="console-footer"><span>MISSION: MAKE IT MATTER</span><span>LAT: 19.4326 / LONG: -99.1332</span></div>
+  </div>
+</section>
+
+<section class="impact-map" id="singularity-system" aria-labelledby="impact-map-title">
+  <div class="impact-map__heading"><span class="eyebrow">22 / THE IMPACT MAP</span><h2 id="impact-map-title">One idea.<br /><span class="outline-text">Four forces.</span></h2><p>Las mejores experiencias no son una colección de features. Son un sistema donde cada capa amplifica la siguiente.</p></div>
+  <div class="impact-layers">
+    {layers.map(([number, title, caption, color], index) => <article class={`impact-layer impact-layer--${color}`}><div class="impact-layer__number">{number}</div><div class="impact-layer__icon">{index === 0 ? '◉' : index === 1 ? '✦' : index === 2 ? '⌘' : '↗'}</div><div><h3>{title}</h3><p>{caption}</p></div><span class="impact-layer__line"></span></article>)}
+  </div>
+</section>
+
+<section class="signal-section" aria-labelledby="signal-title">
+  <div class="signal-section__copy"><span class="eyebrow">23 / SIGNAL OVER NOISE</span><h2 id="signal-title">More signal.<br /><span>Less spectacle.</span></h2><p>La escala no está en añadir más cosas. Está en que cada elemento se sienta necesario. Por eso diseñamos sistemas que convierten complejidad en dirección.</p><a class="text-link" href="#questions">Read the thinking <span>↓</span></a></div>
+  <div class="signal-dashboard">
+    <div class="signal-dashboard__nav"><span>LIVE / SIGNAL ANALYSIS</span><span>01—04</span></div>
+    <div class="signal-bars"><div class="signal-bar"><span>CLARITY</span><i><b style="--bar-width: 92%"></b></i><strong>92</strong></div><div class="signal-bar"><span>MEMORY</span><i><b style="--bar-width: 87%"></b></i><strong>87</strong></div><div class="signal-bar"><span>VELOCITY</span><i><b style="--bar-width: 96%"></b></i><strong>96</strong></div><div class="signal-bar"><span>DELIGHT</span><i><b style="--bar-width: 94%"></b></i><strong>94</strong></div></div>
+    <div class="signal-dashboard__footer"><span>ANALYSIS COMPLETE</span><span class="signal-ok">● HIGH CONFIDENCE</span></div>
+  </div>
+</section>
+
+<section class="questions-section" id="questions" aria-labelledby="questions-title">
+  <div class="questions-heading"><span class="eyebrow">24 / THE BIG QUESTIONS</span><h2 id="questions-title">Think<br /><span class="highlight">bigger.</span></h2></div>
+  <div class="questions-list">
+    {questions.map(([question, answer], index) => <details open={index === 0}><summary><span>0{index + 1}</span>{question}<b>+</b></summary><p>{answer}</p></details>)}
+  </div>
+</section>
+
+<section class="singularity-cta" aria-labelledby="singularity-cta-title">
+  <div class="singularity-cta__grid"></div>
+  <div class="singularity-cta__content"><span class="eyebrow">25 / THE NEXT ORDER</span><h2 id="singularity-cta-title">Make the<br /><span>unthinkable</span><br />feel inevitable.</h2><p>Tu siguiente etapa no necesita más ruido. Necesita una experiencia con la fuerza suficiente para mover a todos en la misma dirección.</p><a class="button button-yellow" href="#contacto">Start the impossible <span>↗</span></a></div>
+  <div class="singularity-cta__orb" aria-hidden="true"><span></span><i></i><b>∞</b></div>
+</section>
+
+<script>
+  const questionItems = document.querySelectorAll<HTMLDetailsElement>('.questions-list details');
+  questionItems.forEach((item) => item.addEventListener('toggle', () => {
+    if (item.open) questionItems.forEach((other) => { if (other !== item) other.removeAttribute('open'); });
+  }));
+
+  const signalBars = document.querySelectorAll<HTMLElement>('.signal-bar b');
+  const signalObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) (entry.target as HTMLElement).classList.add('is-live');
+    });
+  }, { threshold: 0.6 });
+  signalBars.forEach((bar) => signalObserver.observe(bar));
+</script>
