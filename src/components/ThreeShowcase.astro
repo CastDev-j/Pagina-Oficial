@@ -1,0 +1,187 @@
+---
+import '../styles/three-showcase.css';
+---
+
+<section class="three-showcase" aria-labelledby="three-showcase-title">
+  <div class="three-showcase__copy">
+    <span class="eyebrow">11 / LABORATORIO 3D</span>
+    <h2 id="three-showcase-title">Diseño que<br /><span class="three-highlight">se mueve.</span></h2>
+    <p>Una experiencia de producto debe responder, no solamente verse bien. Explora este sistema 3D: cada capa representa una decisión que convierte una idea en algo real.</p>
+    <div class="three-stats" aria-label="Características de la experiencia">
+      <div><strong>60</strong><span>FPS TARGET</span></div>
+      <div><strong>3D</strong><span>REAL TIME</span></div>
+      <div><strong>0</strong><span>HEAVY ASSETS</span></div>
+    </div>
+    <p class="three-hint"><span>✦</span> Mueve el cursor o desplázate para explorar</p>
+  </div>
+  <div class="three-viewport" data-three-viewport>
+    <canvas aria-label="Visualización 3D interactiva de una arquitectura de producto" data-three-canvas></canvas>
+    <div class="three-overlay three-overlay--top"><span>CLICK / ENGINE</span><span class="three-live"><i></i> RENDERING</span></div>
+    <div class="three-overlay three-overlay--bottom"><span>ORBIT: ACTIVE</span><span>DEPTH: 04 LAYERS</span></div>
+    <div class="three-cursor" data-three-cursor aria-hidden="true">DRAG<br />ME</div>
+    <noscript><p class="three-nojs">Activa JavaScript para explorar la visualización 3D.</p></noscript>
+  </div>
+</section>
+
+<script>
+  const THREE = await import('three');
+
+  const viewport = document.querySelector<HTMLElement>('[data-three-viewport]');
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-three-canvas]');
+  const cursor = document.querySelector<HTMLElement>('[data-three-cursor]');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (viewport && canvas && !reduceMotion.matches) {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+    const group = new THREE.Group();
+    const startedAt = performance.now();
+    const pointer = new THREE.Vector2();
+    const targetRotation = new THREE.Vector2();
+    const scrollState = { progress: 0 };
+    let frameId = 0;
+    let isVisible = true;
+
+    scene.add(group);
+    camera.position.set(0, 0.2, 8.5);
+    camera.lookAt(0, 0, 0);
+
+    const palette = {
+      ink: 0x121212,
+      yellow: 0xffde00,
+      blue: 0x1b3bff,
+      teal: 0x008080,
+      green: 0x00e065,
+    };
+
+    const lineMaterial = (color: number, opacity = 0.9) => new THREE.LineBasicMaterial({ color, transparent: true, opacity });
+    const solidMaterial = (color: number, opacity = 1) => new THREE.MeshBasicMaterial({ color, transparent: opacity < 1, opacity, wireframe: false });
+
+    const core = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(0.92, 1),
+      new THREE.MeshBasicMaterial({ color: palette.yellow, wireframe: true, transparent: true, opacity: 0.95 }),
+    );
+    group.add(core);
+
+    const innerCore = new THREE.Mesh(new THREE.IcosahedronGeometry(0.46, 1), solidMaterial(palette.blue));
+    group.add(innerCore);
+
+    const rings = [
+      { radius: 1.35, color: palette.yellow, rotation: [0.4, 0.2, 0.1] },
+      { radius: 1.8, color: palette.blue, rotation: [1.1, 0.2, 0.5] },
+      { radius: 2.25, color: palette.teal, rotation: [0.1, 1.1, 0.8] },
+    ];
+
+    rings.forEach(({ radius, color, rotation }) => {
+      const points = new THREE.EllipseCurve(0, 0, radius, radius * 0.46, 0, Math.PI * 2, false).getPoints(96);
+      const geometry = new THREE.BufferGeometry().setFromPoints(points.map((point) => new THREE.Vector3(point.x, point.y, 0)));
+      const ring = new THREE.LineLoop(geometry, lineMaterial(color, 0.8));
+      ring.rotation.set(...rotation as [number, number, number]);
+      group.add(ring);
+    });
+
+    const nodeGeometry = new THREE.BoxGeometry(0.16, 0.16, 0.16);
+    const nodeMaterials = [solidMaterial(palette.yellow), solidMaterial(palette.blue), solidMaterial(palette.teal), solidMaterial(palette.green)];
+    const nodes: Array<import('three').Mesh> = [];
+    for (let index = 0; index < 18; index += 1) {
+      const node = new THREE.Mesh(nodeGeometry, nodeMaterials[index % nodeMaterials.length]);
+      const angle = (index / 18) * Math.PI * 2;
+      const radius = 1.65 + (index % 3) * 0.25;
+      node.position.set(Math.cos(angle) * radius, Math.sin(angle) * radius * 0.45, Math.sin(angle * 2) * 0.5);
+      node.userData = { angle, radius, offset: index * 0.18 };
+      nodes.push(node);
+      group.add(node);
+    }
+
+    const connectorMaterial = lineMaterial(palette.ink, 0.3);
+    const connectorPositions = new Float32Array(nodes.length * 6);
+    const connectorGeometry = new THREE.BufferGeometry();
+    connectorGeometry.setAttribute('position', new THREE.BufferAttribute(connectorPositions, 3));
+    const connectors = new THREE.LineSegments(connectorGeometry, connectorMaterial);
+    group.add(connectors);
+
+    const resize = () => {
+      const bounds = viewport.getBoundingClientRect();
+      const width = Math.max(1, bounds.width);
+      const height = Math.max(1, bounds.height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    };
+
+    const updateConnectors = () => {
+      const positions = connectors.geometry.attributes.position.array as Float32Array;
+      nodes.forEach((node, index) => {
+        const offset = index * 6;
+        positions[offset] = 0;
+        positions[offset + 1] = 0;
+        positions[offset + 2] = 0;
+        positions[offset + 3] = node.position.x;
+        positions[offset + 4] = node.position.y;
+        positions[offset + 5] = node.position.z;
+      });
+      connectors.geometry.attributes.position.needsUpdate = true;
+    };
+
+    const render = () => {
+      if (!isVisible) {
+        frameId = window.requestAnimationFrame(render);
+        return;
+      }
+      const elapsed = (performance.now() - startedAt) / 1000;
+      group.rotation.y += (targetRotation.x * 0.012) + 0.0015;
+      group.rotation.x += ((targetRotation.y * 0.04) - group.rotation.x) * 0.03;
+      core.rotation.x = elapsed * 0.18;
+      core.rotation.y = elapsed * 0.28;
+      innerCore.rotation.y = -elapsed * 0.5;
+      nodes.forEach((node) => {
+        const { angle, radius, offset } = node.userData;
+        const orbit = angle + elapsed * (0.12 + (offset % 3) * 0.025) + scrollState.progress * Math.PI * 0.4;
+        node.position.x = Math.cos(orbit) * radius;
+        node.position.y = Math.sin(orbit) * radius * 0.45;
+        node.position.z = Math.sin(orbit * 2) * 0.5;
+        node.rotation.x = elapsed + offset;
+        node.rotation.y = elapsed * 0.7 + offset;
+      });
+      updateConnectors();
+      renderer.render(scene, camera);
+      frameId = window.requestAnimationFrame(render);
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      const bounds = viewport.getBoundingClientRect();
+      pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+      targetRotation.set(pointer.x, pointer.y);
+      if (cursor) {
+        cursor.style.transform = `translate(${event.clientX - bounds.left}px, ${event.clientY - bounds.top}px)`;
+      }
+    };
+
+    const onScroll = () => {
+      const bounds = viewport.getBoundingClientRect();
+      const distance = Math.max(1, window.innerHeight + bounds.height);
+      scrollState.progress = THREE.MathUtils.clamp((window.innerHeight - bounds.top) / distance, 0, 1);
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+    }, { rootMargin: '200px' });
+
+    observer.observe(viewport);
+    viewport.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    resize();
+    onScroll();
+    render();
+
+    window.addEventListener('pagehide', () => {
+      window.cancelAnimationFrame(frameId);
+      observer.disconnect();
+      renderer.dispose();
+    }, { once: true });
+  }
+</script>
