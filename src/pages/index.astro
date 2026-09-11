@@ -44,6 +44,7 @@ const projects = [
   description="Diseñamos y construimos productos digitales rápidos, memorables y listos para crecer."
 >
   <div class="site-shell">
+    <div class="reading-progress" aria-hidden="true"><span></span></div>
     <header class="topbar">
       <a href="/" class="wordmark" aria-label="Click, inicio">
         <img src="/logo.svg" alt="" width="36" height="36" />
@@ -54,8 +55,17 @@ const projects = [
         <a href="#metodo">Método</a>
         <a href="#contacto">Contacto</a>
       </nav>
+      <div class="header-tools">
+        <button class="icon-button menu-trigger" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">☰</button>
+        <button class="icon-button contrast-trigger" type="button" aria-pressed="false" aria-label="Activar modo de alto contraste">◐</button>
+      </div>
       <a class="button button-small button-yellow" href="#contacto">Hablemos <span aria-hidden="true">↗</span></a>
     </header>
+    <nav id="mobile-menu" class="mobile-menu" aria-label="Navegación móvil" hidden>
+      <a href="#servicios">Servicios <span>01</span></a>
+      <a href="#metodo">Método <span>02</span></a>
+      <a href="#contacto">Contacto <span>03</span></a>
+    </nav>
 
     <main>
       <section class="hero section-grid" aria-labelledby="hero-title">
@@ -133,6 +143,16 @@ const projects = [
         </div>
       </section>
 
+      <section class="capabilities-section">
+        <div class="capabilities-heading"><span class="eyebrow">02.5 / STACK DE CONFIANZA</span><h2>Diseño con<br /><span class="highlight-blue">futuro.</span></h2><p>No elegimos herramientas por moda. Las elegimos porque hacen que tu producto sea más rápido, seguro y agradable de mantener.</p></div>
+        <div class="capability-grid">
+          <div class="capability-card"><span class="capability-mark">◈</span><strong>Frontend</strong><p>Astro · React · TypeScript</p><b>PERFORMANCE FIRST</b></div>
+          <div class="capability-card"><span class="capability-mark">⌁</span><strong>Infraestructura</strong><p>Cloudflare · Edge · CI/CD</p><b>READY TO SCALE</b></div>
+          <div class="capability-card"><span class="capability-mark">⌘</span><strong>Producto</strong><p>Research · UX · Sistemas</p><b>HUMAN CENTERED</b></div>
+          <div class="capability-card"><span class="capability-mark">✓</span><strong>Calidad</strong><p>Accesibilidad · SEO · Tests</p><b>BUILT TO LAST</b></div>
+        </div>
+      </section>
+
       <section id="metodo" class="method-section">
         <div class="method-intro"><span class="eyebrow">02 / CÓMO TRABAJAMOS</span><h2>Rápidos para<br /><span class="highlight-blue">pensar.</span><br />Obsesivos para<br />construir.</h2><p>Un proceso directo, colaborativo y sin reuniones que pudieron ser un email.</p></div>
         <div class="steps-list">
@@ -155,6 +175,12 @@ const projects = [
         </div>
       </section>
 
+      <section class="testimonial-section section">
+        <div class="testimonial-top"><span class="eyebrow">03.8 / SEÑAL RECIBIDA</span><span class="live-chip"><i></i> FEEDBACK REAL</span></div>
+        <blockquote>“Click entendió lo que queríamos decir antes de que supiéramos cómo decirlo.”</blockquote>
+        <div class="testimonial-author"><span class="mini-avatar">M</span><span><strong>Mariana R.</strong><small>FOUNDING TEAM / PRODUCT LEAD</small></span></div>
+      </section>
+
       <section id="contacto" class="contact-section">
         <div class="contact-top"><span class="eyebrow">04 / EL SIGUIENTE CLICK</span><h2>Cuéntanos<br /><span class="highlight">qué tienes</span> en mente.</h2><p>Cuatro líneas son suficientes para empezar. Te respondemos en menos de 48 horas.</p></div>
         <form class="contact-form" action="mailto:hola@click.digitalandia.com" method="post" enctype="text/plain">
@@ -175,6 +201,10 @@ const projects = [
   const form = document.querySelector<HTMLFormElement>('.contact-form');
   const formStatus = document.querySelector<HTMLElement>('.form-status');
   const terminalLog = document.querySelector<HTMLElement>('.terminal-log');
+  const progress = document.querySelector<HTMLElement>('.reading-progress span');
+  const menuTrigger = document.querySelector<HTMLButtonElement>('.menu-trigger');
+  const mobileMenu = document.querySelector<HTMLElement>('#mobile-menu');
+  const contrastTrigger = document.querySelector<HTMLButtonElement>('.contrast-trigger');
 
   form?.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -213,4 +243,23 @@ const projects = [
       }
     });
   });
+
+  menuTrigger?.addEventListener('click', () => {
+    const isOpen = menuTrigger.getAttribute('aria-expanded') === 'true';
+    menuTrigger.setAttribute('aria-expanded', String(!isOpen));
+    if (mobileMenu) mobileMenu.hidden = isOpen;
+  });
+  mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+    mobileMenu.hidden = true;
+    menuTrigger?.setAttribute('aria-expanded', 'false');
+  }));
+  contrastTrigger?.addEventListener('click', () => {
+    const active = document.body.classList.toggle('high-contrast');
+    contrastTrigger.setAttribute('aria-pressed', String(active));
+  });
+  window.addEventListener('scroll', () => {
+    if (!progress) return;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+  }, { passive: true });
 </script>
