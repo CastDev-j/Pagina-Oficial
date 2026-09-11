@@ -1,0 +1,150 @@
+---
+import '../styles/feature-lab.css';
+
+const plans = [
+  {
+    label: 'STARTER',
+    title: 'Primer click',
+    price: 'Desde $1.2k',
+    description: 'Para validar una idea con una presencia digital que ya se siente grande.',
+    features: ['Landing estratégica', 'Sistema visual base', 'SEO técnico', 'Entrega en 2-3 semanas'],
+    color: 'paper',
+  },
+  {
+    label: 'MOST REQUESTED',
+    title: 'Bold launch',
+    price: 'Desde $3.8k',
+    description: 'Para equipos listos para lanzar una experiencia completa y memorable.',
+    features: ['Estrategia + UX/UI', 'Web multipágina', 'CMS y analytics', 'Soporte de lanzamiento'],
+    color: 'yellow',
+  },
+  {
+    label: 'CUSTOM',
+    title: 'Built to scale',
+    price: 'Hablemos',
+    description: 'Para productos complejos que necesitan arquitectura, claridad y velocidad.',
+    features: ['Discovery profundo', 'Producto a medida', 'Infraestructura edge', 'Evolución continua'],
+    color: 'blue',
+  },
+];
+
+const roadmap = [
+  ['01', 'Señal', 'Detectamos la fricción que más le cuesta a tu negocio.'],
+  ['02', 'Sistema', 'Dibujamos una solución que el equipo pueda entender y usar.'],
+  ['03', 'Sprint', 'Construimos en ciclos cortos con entregas que puedes tocar.'],
+  ['04', 'Impacto', 'Medimos lo que cambió y priorizamos el siguiente movimiento.'],
+];
+
+const toolkit = [
+  ['01', 'Strategy', 'Posicionamiento, research y definición de producto.', '96%'],
+  ['02', 'Experience', 'Interfaces, contenido y sistemas de diseño.', '92%'],
+  ['03', 'Engineering', 'Frontend, APIs, automatización y calidad.', '98%'],
+  ['04', 'Growth', 'SEO, analítica y loops de mejora continua.', '88%'],
+];
+---
+
+<section class="feature-lab" aria-labelledby="feature-lab-title">
+  <div class="feature-lab__header">
+    <div>
+      <span class="eyebrow">05 / MODO DE OPERACIÓN</span>
+      <h2 id="feature-lab-title">Un sistema para<br /><span class="feature-highlight">moverte rápido.</span></h2>
+    </div>
+    <p>Una buena idea necesita más que una pantalla bonita. Necesita dirección, ritmo y un equipo que responda.</p>
+  </div>
+
+  <div class="feature-dashboard">
+    <div class="dashboard-sidebar">
+      <span class="dashboard-caption">CLICK / CONSOLE</span>
+      <button class="dashboard-tab is-active" type="button" data-feature-tab="signal"><span>◉</span> Signal check</button>
+      <button class="dashboard-tab" type="button" data-feature-tab="system"><span>⌘</span> System map</button>
+      <button class="dashboard-tab" type="button" data-feature-tab="impact"><span>↗</span> Impact log</button>
+      <div class="dashboard-build"><span class="dashboard-pulse"></span><span>ALL SYSTEMS<br /><b>READY</b></span></div>
+    </div>
+    <div class="dashboard-main">
+      <div class="dashboard-toolbar"><span>PROJECT / YOUR NEXT MOVE</span><span class="dashboard-time">LIVE <i></i></span></div>
+      <div class="dashboard-panel is-visible" data-feature-panel="signal">
+        <div class="dashboard-copy"><span class="dashboard-index">01 / 03</span><h3>¿Qué necesita<br /><em>clic</em> ahora?</h3><p>Selecciona una señal y te enseñamos cómo la convertiríamos en una acción concreta.</p></div>
+        <div class="signal-grid">
+          <button type="button" data-signal="clarity"><b>◌</b><span>Falta claridad</span><small>MENSAJE / POSICIONAMIENTO</small></button>
+          <button type="button" data-signal="speed"><b>↯</b><span>Falta velocidad</span><small>PROCESO / SOFTWARE</small></button>
+          <button type="button" data-signal="attention"><b>✦</b><span>Falta atención</span><small>MARCA / EXPERIENCIA</small></button>
+          <button type="button" data-signal="scale"><b>⌁</b><span>Falta escala</span><small>SISTEMA / INFRA</small></button>
+        </div>
+        <p class="signal-response" role="status" aria-live="polite">ELIGE UNA SEÑAL PARA ACTIVAR EL DIAGNÓSTICO.</p>
+      </div>
+      <div class="dashboard-panel" data-feature-panel="system" hidden>
+        <div class="dashboard-copy"><span class="dashboard-index">02 / 03</span><h3>Diseño que<br /><em>conecta.</em></h3><p>Unimos negocio, usuario y tecnología en una sola línea de decisión.</p></div>
+        <div class="system-map" aria-label="Mapa del sistema"><span class="map-node map-node--top">NEGOCIO</span><span class="map-line map-line--one"></span><span class="map-node map-node--center">CLICK</span><span class="map-line map-line--two"></span><span class="map-node map-node--left">PERSONAS</span><span class="map-node map-node--right">TECNOLOGÍA</span></div>
+      </div>
+      <div class="dashboard-panel" data-feature-panel="impact" hidden>
+        <div class="dashboard-copy"><span class="dashboard-index">03 / 03</span><h3>Menos ruido.<br /><em>Más señal.</em></h3><p>Definimos métricas que conectan el trabajo diario con el resultado que importa.</p></div>
+        <div class="impact-log"><p><b>09:42:10</b><span class="log-green">[PASS]</span> mensaje validado</p><p><b>09:44:28</b><span class="log-blue">[BUILD]</span> experiencia ensamblada</p><p><b>09:47:02</b><span class="log-yellow">[SHIP]</span> impacto en camino</p><p><b>09:47:03</b><span class="log-green">[ OK ]</span> siguiente click listo</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-section" aria-labelledby="pricing-title">
+  <div class="pricing-heading"><span class="eyebrow">06 / FORMAS DE EMPEZAR</span><h2 id="pricing-title">Elige tu<br /><span class="outline-text">velocidad.</span></h2><p>No vendemos paquetes cerrados. Estos puntos de partida ayudan a poner una conversación concreta sobre la mesa.</p></div>
+  <div class="pricing-grid">
+    {plans.map((plan, index) => (
+      <article class={`pricing-card pricing-card--${plan.color} ${index === 1 ? 'pricing-card--featured' : ''}`}>
+        <div class="pricing-card__top"><span>{plan.label}</span><b>0{index + 1}</b></div>
+        <h3>{plan.title}</h3><strong>{plan.price}</strong><p>{plan.description}</p>
+        <ul>{plan.features.map((feature) => <li><span>✓</span>{feature}</li>)}</ul>
+        <a href="#contacto" class="pricing-link">Empezar aquí <span>↗</span></a>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section class="roadmap-section" aria-labelledby="roadmap-title">
+  <div class="roadmap-heading"><span class="eyebrow">07 / EL RECORRIDO</span><h2 id="roadmap-title">De la duda<br />al <span class="highlight">despegue.</span></h2></div>
+  <div class="roadmap-track">
+    {roadmap.map(([number, title, description]) => <article class="roadmap-step"><span>{number}</span><div><h3>{title}</h3><p>{description}</p></div><i>↗</i></article>)}
+  </div>
+</section>
+
+<section class="toolkit-section section" aria-labelledby="toolkit-title">
+  <div class="toolkit-heading"><span class="eyebrow">08 / RADAR DE CAPACIDADES</span><h2 id="toolkit-title">Todo el equipo<br /><span class="outline-text">en una señal.</span></h2><p>Conectamos las piezas que normalmente viven separadas para que el producto avance con menos fricción.</p></div>
+  <div class="toolkit-list">
+    {toolkit.map(([number, title, description, score]) => <div class="toolkit-row"><span>{number}</span><strong>{title}</strong><p>{description}</p><div class="toolkit-meter"><i style={`width:${score}`}></i></div><b>{score}</b></div>)}
+  </div>
+</section>
+
+<section class="feature-cta" aria-labelledby="feature-cta-title">
+  <div><span class="eyebrow">09 / LISTOS PARA EL SIGUIENTE NIVEL</span><h2 id="feature-cta-title">Haz que tu<br /><span>idea responda.</span></h2></div>
+  <a href="#contacto" class="button button-yellow">Activar conversación <span>→</span></a>
+</section>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('[data-feature-tab]');
+  const panels = document.querySelectorAll<HTMLElement>('[data-feature-panel]');
+  const signalResponse = document.querySelector<HTMLElement>('.signal-response');
+  const responses: Record<string, string> = {
+    clarity: 'DIAGNÓSTICO: PONEMOS EL MENSAJE EN MOVIMIENTO.',
+    speed: 'DIAGNÓSTICO: QUITAMOS FRICCIÓN DEL CAMINO.',
+    attention: 'DIAGNÓSTICO: DISEÑAMOS UNA SEÑAL IMPOSIBLE DE IGNORAR.',
+    scale: 'DIAGNÓSTICO: CONSTRUIMOS LA BASE PARA EL SIGUIENTE ORDEN DE MAGNITUD.',
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.featureTab;
+      tabs.forEach((item) => item.classList.toggle('is-active', item === tab));
+      panels.forEach((panel) => {
+        const visible = panel.dataset.featurePanel === target;
+        panel.hidden = !visible;
+        panel.classList.toggle('is-visible', visible);
+      });
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-signal]').forEach((signal) => {
+    signal.addEventListener('click', () => {
+      document.querySelectorAll('[data-signal]').forEach((item) => item.classList.remove('is-selected'));
+      signal.classList.add('is-selected');
+      if (signalResponse) signalResponse.textContent = responses[signal.dataset.signal || 'clarity'];
+    });
+  });
+</script>
