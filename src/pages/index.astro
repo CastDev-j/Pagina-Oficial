@@ -79,7 +79,7 @@ const steps = [
               <div class="art-circle"></div><div class="art-spark spark-one">✦</div><div class="art-spark spark-two">✳</div>
               <span class="art-label">MAKE<br />IT<br /><em>CLICK</em></span>
             </div>
-            <div class="terminal-log">
+            <div class="terminal-log" aria-live="polite">
               <p><span class="log-blue">[INFO]</span> compiling good ideas...</p>
               <p><span class="log-yellow">[WAIT]</span> removing unnecessary jargon</p>
               <p><span class="log-green">[ OK ]</span> ready to make noise <b>█</b></p>
@@ -92,6 +92,13 @@ const steps = [
       <div class="ticker" aria-label="Tecnologías y capacidades">
         <div class="ticker-track"><span>WEB EXPERIENCES</span><b>✦</b><span>PRODUCT THINKING</span><b>✦</b><span>SOFTWARE CRAFT</span><b>✦</b><span>WEB EXPERIENCES</span><b>✦</b><span>PRODUCT THINKING</span><b>✦</b></div>
       </div>
+
+      <section class="impact-strip" aria-label="Métricas de Click">
+        <div><strong>100<span>%</span></strong><small>DEDICACIÓN<br />A CADA DETALLE</small></div>
+        <div><strong>24<span>ms</span></strong><small>LATENCIA<br />DE REFERENCIA</small></div>
+        <div><strong>0<span>px</span></strong><small>PLANTILLAS<br />UTILIZADAS</small></div>
+        <div><strong>1<span>×</span></strong><small>BUEN CLICK<br />PARA EMPEZAR</small></div>
+      </section>
 
       <section id="servicios" class="section services-section">
         <div class="section-heading"><div><span class="eyebrow">01 / LO QUE HACEMOS</span><h2>No hacemos<br /><span class="outline-text">lo de siempre.</span></h2></div><p class="section-intro">La tecnología es nuestra herramienta. La diferencia está en cómo pensamos cada detalle para que tu negocio avance.</p></div>
@@ -126,6 +133,7 @@ const steps = [
           <label><span>02 / TU EMAIL</span><input type="email" name="email" placeholder="jane@empresa.com" required /></label>
           <label class="full-label"><span>03 / CUÉNTANOS SOBRE EL PROYECTO</span><textarea name="proyecto" rows="3" placeholder="Tenemos una idea que..."></textarea></label>
           <button class="button button-yellow submit-button" type="submit">Enviar mensaje <span aria-hidden="true">↗</span></button>
+          <p class="form-status" role="status" aria-live="polite"></p>
         </form>
       </section>
     </main>
@@ -133,3 +141,37 @@ const steps = [
     <footer class="footer"><div class="footer-brand"><img src="/logo.svg" alt="" width="32" height="32" /><strong>CLICK<span>.</span></strong><p>Experiencias memorables<br />en un solo click.</p></div><div class="footer-links"><a href="mailto:hola@click.digitalandia.com">hola@click.digitalandia.com ↗</a><a href="https://github.com/Click-Software">GitHub ↗</a><span>© 2025 CLICK STUDIO</span></div></footer>
   </div>
 </Layout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('.contact-form');
+  const formStatus = document.querySelector<HTMLElement>('.form-status');
+  const terminalLog = document.querySelector<HTMLElement>('.terminal-log');
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('nombre') || '').trim();
+    const email = String(data.get('email') || '').trim();
+    const project = String(data.get('proyecto') || '').trim();
+
+    if (!name || !email) return;
+
+    const subject = encodeURIComponent(`Nuevo proyecto desde Click — ${name}`);
+    const body = encodeURIComponent(`Nombre: ${name}\nEmail: ${email}\n\nProyecto:\n${project || 'Pendiente de definir'}`);
+    window.location.href = `mailto:hola@click.digitalandia.com?subject=${subject}&body=${body}`;
+    if (formStatus) formStatus.textContent = 'ABRIENDO TU CLIENTE DE CORREO...';
+  });
+
+  const terminalMessages = [
+    '<p><span class="log-blue">[INFO]</span> compiling good ideas...</p>',
+    '<p><span class="log-yellow">[WAIT]</span> removing unnecessary jargon</p>',
+    '<p><span class="log-green">[ OK ]</span> ready to make noise <b>█</b></p>',
+  ];
+  let messageIndex = 0;
+
+  window.setInterval(() => {
+    if (!terminalLog) return;
+    messageIndex = (messageIndex + 1) % terminalMessages.length;
+    terminalLog.innerHTML = `${terminalMessages[messageIndex]}${terminalMessages[(messageIndex + 1) % terminalMessages.length]}`;
+  }, 3200);
+</script>
